@@ -1,0 +1,76 @@
+(() => {
+  if (!window.location.pathname.includes('/productos/')) return;
+  if (LS?.theme?.name === "Patagonia") return;
+
+  // ===============================
+  // GOcuotas
+  // ===============================
+  const createGocuotasDescription = () => {
+    if (document.querySelector('.gocuotas-info-container-cart')) return null;
+
+    const GocuotasDescription = document.createElement("div");
+    GocuotasDescription.classList.add('col-12', 'mb-2', 'p-0');
+
+    const newContainer3 = document.createElement("div");
+    newContainer3.classList.add("gocuotas-info-container-cart");
+
+    // Contenido distinto por theme
+    if (LS.theme.name === 'Simple') {
+      newContainer3.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 15px; margin-top: 30px">
+          <img 
+            src="https://f005.backblazeb2.com/file/gocuotas-marketing/tiendanube_sdk/gocuotas-logo-go.svg" 
+            alt="Logo GOcuotas" 
+            style="height: 25px;"
+          >
+          <span style="white-space: nowrap; font-size: 15px">
+            Cuotas SIN interés con <strong>DÉBITO</strong>
+          </span>
+        </div>
+      `;
+    } else if (LS.theme.name === 'Trend') {
+      newContainer3.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 15px; margin-top: 5px">
+          <img 
+            src="https://f005.backblazeb2.com/file/gocuotas-marketing/tiendanube_sdk/gocuotas-logo-go.svg" 
+            alt="Logo GOcuotas" 
+            style="height: 25px;"
+          >
+          <span style="white-space: nowrap; font-size: 15px">
+            Cuotas SIN interés con <strong>DÉBITO</strong>
+          </span>
+        </div>
+      `;
+    } else {
+      newContainer3.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 15px; margin-top: 5px">
+          <img 
+            src="https://f005.backblazeb2.com/file/gocuotas-marketing/tiendanube_sdk/gocuotas-logo-go.svg" 
+            alt="Logo GOcuotas" 
+            style="height: 25px;"
+          >
+          <span style="white-space: nowrap;">
+            Cuotas SIN interés con <strong>DÉBITO</strong>
+          </span>
+        </div>
+      `;
+    }
+
+    GocuotasDescription.appendChild(newContainer3);
+    return GocuotasDescription;
+  };
+
+  const insertGocuotasDescription = (selector, position = 'beforeend') => {
+    const container = document.querySelector(selector);
+    if (container && !document.querySelector('.gocuotas-info-container-cart')) {
+      const block = createGocuotasDescription();
+      if (block) container.insertAdjacentElement(position, block);
+    }
+  };
+
+  // Theme Default
+  insertGocuotasDescription('.js-cart-total-container', 'beforeend');
+
+  // Theme Trend
+  insertGocuotasDescription('.js-visible-on-cart-filled.cart-totals.cart-total', 'beforeend');
+})();

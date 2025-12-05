@@ -1,0 +1,33 @@
+(() => {
+  if (typeof LS === "undefined" || LS.country !== "AR") return;
+  if (LS?.theme?.name === "Patagonia") return;
+
+  const path = window.location.pathname;
+  if (!path.includes("/productos/") || path === "/productos") return;
+
+  const container = document.querySelector("#installment_gocuotas");
+  if (!container) return;
+
+  const updateText = (selector, newText) => {
+    const el = container.querySelector(selector);
+    if (el) el.textContent = newText;
+  };
+
+  const updateAllText = (selector, newText) => {
+    const els = container.querySelectorAll(selector);
+    els.forEach(el => (el.textContent = newText));
+  };
+
+  updateText(
+    ".box-title, .js-payment-method-title",
+    "Cuotas SIN interés con tarjeta de DÉBITO"
+  );
+
+  updateAllText("h4, h6", "Cuotas SIN interés con tarjeta de DÉBITO");
+
+  const totalDiv = container.querySelector(".js-payment-method-total");
+  if (totalDiv) totalDiv.remove();
+
+  const tableTitle = container.querySelector(".js-payment-method-installments-table-title strong");
+  if (tableTitle) tableTitle.textContent = "Pagá en";
+})();
